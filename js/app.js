@@ -42,8 +42,9 @@ function ratingToPct(rating){
 }
 
 /* ---------- Reviews storage (for main page aggregates) ---------- */
+const REV_KEY_VER = "v2";
 function reviewStorageKey(id){
-  return `bagelbites_reviews_${id}`;
+  return `bagelbites_reviews_${REV_KEY_VER}_${id}`;
 }
 
 function loadReviews(id){
@@ -474,7 +475,6 @@ function cloneFiltersIntoMobile(){
   const rerun = () => { page = 1; applyFiltersAndRender(); };
 
   // Proper scoping: find elements inside dest by their ids
-  const q = $("#q", dest);
   const fNeighborhood = $("#fNeighborhood", dest);
   const fPrice = $("#fPrice", dest);
   const fTag = $("#fTag", dest);
@@ -485,12 +485,6 @@ function cloneFiltersIntoMobile(){
   const fLateNight = $("#fLateNight", dest);
   const sort = $("#sort", dest);
   const clear = $("#btnClearFilters", dest);
-
-  q?.addEventListener("input", () => {
-    const d = document.getElementById("q");
-    if (d && d !== q) d.value = q.value;
-    rerun();
-  });
 
   function mirrorSelect(mobileEl, desktopId){
     mobileEl?.addEventListener("change", () => {
@@ -522,8 +516,6 @@ function cloneFiltersIntoMobile(){
   clear?.addEventListener("click", () => {
     const d = document.getElementById("btnClearFilters");
     if (d && d !== clear) d.click();
-
-    q.value = "";
     fNeighborhood.value = "all";
     fPrice.value = "all";
     fTag.value = "all";
@@ -535,9 +527,7 @@ function cloneFiltersIntoMobile(){
     sort.value = "name";
     rerun();
   });
-
   // Sync mobile UI from desktop current state once
-  const dq = document.getElementById("q");
   const dNeighborhood = document.getElementById("fNeighborhood");
   const dPrice = document.getElementById("fPrice");
   const dTag = document.getElementById("fTag");
@@ -547,8 +537,6 @@ function cloneFiltersIntoMobile(){
   const dVegan = document.getElementById("fVegan");
   const dLateNight = document.getElementById("fLateNight");
   const dSort = document.getElementById("sort");
-
-  if (dq && dq !== q) q.value = dq.value;
   if (dNeighborhood && dNeighborhood !== fNeighborhood) fNeighborhood.value = dNeighborhood.value;
   if (dPrice && dPrice !== fPrice) fPrice.value = dPrice.value;
   if (dTag && dTag !== fTag) fTag.value = dTag.value;
