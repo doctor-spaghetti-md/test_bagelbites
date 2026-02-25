@@ -5,6 +5,7 @@
    - Mobile: list only, with buttons to open Filters + Map as overlays
    - Restaurant page styles included
    - Pink Y2K pins + neon vibe
+   - Desktop header: brand far-left, CTAs far-right (desktop only)
    ========================================================= */
 
 /* ---------- Google fonts (optional, safe if already in HTML) ---------- */
@@ -42,8 +43,9 @@
   --font: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --display: "Bungee", system-ui, sans-serif;
   --brand: "Bungee", sans-serif;
-    --gloria: "Gloria Halleluja", cursive;
-    --lucky: "Luckiest Guy", cursive;
+  --gloria: "Gloria Hallelujah", cursive;
+  --lucky: "Luckiest Guy", cursive;
+
   /* restaurant page can override this via JS */
   --restaurantFont: var(--display);
 }
@@ -97,7 +99,9 @@ button, input, select{
   color: inherit;
 }
 
-/* ---------- top header ---------- */
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
 .topbar{
   position:sticky;
   top:0;
@@ -113,11 +117,6 @@ button, input, select{
   backdrop-filter: blur(14px);
 }
 
-
-@media (min-width: 981px){
-  .topbar{ height: var(--headerH); padding: 0; }
-}
-
 .topbar .wrap{
   width:min(1280px, calc(100% - 24px));
   margin:0 auto;
@@ -127,11 +126,30 @@ button, input, select{
   gap: 14px;
 }
 
+/* Desktop sizing */
+@media (min-width: 981px){
+  .topbar{ height: var(--headerH); padding: 0; }
+
+  /* DESKTOP ONLY: make brand far-left and actions far-right */
+  .topbar .wrap{
+    width: calc(100% - 24px);
+    max-width: none;
+    margin: 0 12px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+  .headerActions{
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+}
+
 .brand{
   display:flex;
   align-items:center;
   gap: 12px;
   text-decoration:none;
+  flex: 0 0 auto;
 }
 
 .brand .dot{
@@ -167,6 +185,7 @@ button, input, select{
   display:flex;
   align-items:center;
   gap: 10px;
+  flex: 0 0 auto;
 }
 
 .pillBtn{
@@ -191,7 +210,9 @@ button, input, select{
   transform: translateY(0);
 }
 
-/* ---------- main layout (index) ---------- */
+/* =========================================================
+   MAIN LAYOUT (INDEX)
+   ========================================================= */
 .appShell{
   height: calc(100vh - var(--headerH) - var(--footerH));
   display:grid;
@@ -319,7 +340,9 @@ button, input, select{
 .btn:hover{ transform: translateY(-1px); border-color: rgba(255,79,216,.45); }
 .btn:active{ transform: translateY(0); filter: brightness(.98); }
 
-/* ---------- restaurant cards (index) ---------- */
+/* =========================================================
+   RESTAURANT CARDS (INDEX)
+   ========================================================= */
 .rCard{
   border: 1px solid rgba(255,255,255,.14);
   background:
@@ -522,7 +545,9 @@ button, input, select{
   border-radius: 2px;
 }
 
-/* ---------- footer ---------- */
+/* =========================================================
+   FOOTER
+   ========================================================= */
 .footer{
   min-height: var(--footerH);
   height: var(--footerH);
@@ -549,7 +574,9 @@ button, input, select{
   letter-spacing:.3px;
 }
 
-/* ---------- mobile layout (index) ---------- */
+/* =========================================================
+   MOBILE LAYOUT (INDEX)
+   ========================================================= */
 @media (max-width: 980px){
   .appShell{
     grid-template-columns: 1fr;
@@ -574,14 +601,16 @@ button, input, select{
 
   /* Header: keep CTAs from drifting off-screen */
   .topbar .wrap{ flex-wrap:wrap; align-items:flex-start; }
-  .headerActions{ flex-wrap:wrap; justify-content:flex-start; width:100%; gap:10px; }
+  .headerActions{ flex-wrap:wrap; justify-content:flex-start; width:100%; gap:10px; margin-left: 0; }
   .headerActions > *{ flex: 1 1 calc(50% - 10px); }
   .headerActions .rainbowReviewBtn,
   .headerActions .neonSuggestBtn{ flex: 1 1 100%; }
   .brand{ flex: 1 1 220px; min-width: 180px; }
 }
 
-/* ---------- mobile overlays ---------- */
+/* =========================================================
+   MOBILE OVERLAYS
+   ========================================================= */
 .mobileOverlay{
   position: fixed;
   inset: 0;
@@ -645,7 +674,6 @@ code{
 /* =========================================================
    RESTAURANT PAGE STYLES
    ========================================================= */
-
 .rShell{
   width: min(1200px, calc(100% - 24px));
   margin: 16px auto 0;
@@ -676,7 +704,7 @@ code{
   border-radius: var(--r2);
 }
 .rHeroImg{
-  position: relative; /* IMPORTANT: anchors ::after overlay */
+  position: relative;
   height: 280px;
   background-size: cover;
   background-position: center;
@@ -988,6 +1016,7 @@ code{
   overflow:hidden;
   border: 1px solid rgba(255,255,255,.12);
 }
+
 /* ---------- Full page map view ---------- */
 .fullMapShell{
   height: calc(100vh - var(--headerH) - var(--footerH));
@@ -1008,6 +1037,7 @@ code{
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
+
 /* ---------- Star rating picker ---------- */
 .starPicker{
   display:flex;
@@ -1066,7 +1096,9 @@ code{
   pointer-events:none;
 }
 
-/* ---------- Rainbow glowing CTA button ---------- */
+/* =========================================================
+   RAINBOW GLOWING CTA BUTTON
+   ========================================================= */
 .rainbowReviewBtn{
   position: relative;
   display:inline-flex;
@@ -1134,7 +1166,6 @@ code{
    Glowing Write Review Button (restaurant page)
    Uses pillBtn as base, adds neon aura
    ========================================================= */
-
 .glowReviewBtn{
   position: relative;
   overflow: hidden;
@@ -1192,10 +1223,10 @@ code{
     0 0 0 4px rgba(255,79,216,.12),
     0 0 28px rgba(56,246,255,.22);
 }
+
 /* =========================================================
    Neon Pink Suggestion Button (main page)
    ========================================================= */
-
 .neonSuggestBtn{
   position: relative;
   display:inline-flex;
@@ -1281,7 +1312,7 @@ code{
 
 .rStars{
   position: relative;
-  width: 108px;              /* 5 stars fit nicely */
+  width: 108px;
   height: 18px;
   line-height: 18px;
   flex: 0 0 auto;
@@ -1325,29 +1356,19 @@ code{
 .rRatingMeta .dot{
   opacity:.65;
 }
+
+/* motion safety */
 @media (prefers-reduced-motion: reduce){
-  .neonSuggestBtn{
-    animation: none;
-  }
+  .neonSuggestBtn{ animation: none; }
+  .glowReviewBtn::before{ animation: none; }
+  .rainbowReviewBtn::before{ animation: none; }
 }
+
 /* animation */
 @keyframes glowSpin{
   to{ transform: rotate(360deg); }
 }
 
-/* accessibility */
-@media (prefers-reduced-motion: reduce){
-  .glowReviewBtn::before{
-    animation: none;
-  }
-}
-
-/* optional: calmer motion if user prefers */
-@media (prefers-reduced-motion: reduce){
-  .rainbowReviewBtn::before{ animation: none; }
-}
-
-/* Restaurant page mobile */
 /* ---------- visibility helpers ---------- */
 .mobileOnly{ display:none; }
 .desktopOnly{ display:inline-flex; }
@@ -1356,6 +1377,8 @@ code{
   .mobileOnly{ display:inline-flex; }
   .desktopOnly{ display:none; }
 }
+
+/* Restaurant page mobile */
 @media (max-width: 980px){
   .rShell{ width: calc(100% - 24px); }
   .rHeroImg{ height: 240px; }
