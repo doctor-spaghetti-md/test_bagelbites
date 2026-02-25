@@ -10,7 +10,7 @@
 function $(sel, root = document){ return root.querySelector(sel); }
 
 const DATA_URL = "../data/restaurants.json";          // writereview.html lives in /assets
-const PENDING_KEY = "bagelbites_pending_reviews_v1";  // all pending, all restaurants
+const PENDING_KEY = "bagelbites_pending_reviews_v2";  // all pending, all restaurants
 const MOD_FLAG_KEY = "bagelbites_mod_mode";           // "1" enables moderator panel
 
 function escapeHtml(str){
@@ -30,8 +30,9 @@ function getQuery(){
   };
 }
 
+const REV_KEY_VER = "v2";
 function reviewStorageKey(restaurantId){
-  return `bagelbites_reviews_${restaurantId}`;
+  return `bagelbites_reviews_${REV_KEY_VER}_${restaurantId}`;
 }
 
 function loadJson(url){
