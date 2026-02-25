@@ -102,13 +102,20 @@ button, input, select{
   position:sticky;
   top:0;
   z-index: 50;
-  height: var(--headerH);
+  min-height: var(--headerH);
+  height: auto;
+  padding: 10px 0;
   display:flex;
   align-items:center;
   background:
     linear-gradient(90deg, rgba(255,79,216,.22), rgba(56,246,255,.14), rgba(186,255,58,.10));
   border-bottom: 1px solid rgba(255,255,255,.16);
   backdrop-filter: blur(14px);
+}
+
+
+@media (min-width: 981px){
+  .topbar{ height: var(--headerH); padding: 0; }
 }
 
 .topbar .wrap{
@@ -517,6 +524,7 @@ button, input, select{
 
 /* ---------- footer ---------- */
 .footer{
+  min-height: var(--footerH);
   height: var(--footerH);
   display:flex;
   align-items:center;
@@ -566,8 +574,11 @@ button, input, select{
 
   /* Header: keep CTAs from drifting off-screen */
   .topbar .wrap{ flex-wrap:wrap; align-items:flex-start; }
-  .headerActions{ flex-wrap:wrap; justify-content:flex-end; width:100%; }
-  .brand{ flex: 1 1 auto; }
+  .headerActions{ flex-wrap:wrap; justify-content:flex-start; width:100%; gap:10px; }
+  .headerActions > *{ flex: 1 1 calc(50% - 10px); }
+  .headerActions .rainbowReviewBtn,
+  .headerActions .neonSuggestBtn{ flex: 1 1 100%; }
+  .brand{ flex: 1 1 220px; min-width: 180px; }
 }
 
 /* ---------- mobile overlays ---------- */
@@ -1352,47 +1363,4 @@ code{
   .rSide{ position: static; height: auto; }
   .rAgg{ grid-template-columns: 1fr; }
   .rTitle{ font-size: 28px; }
-
-}
-
-/* =========================
-   MOBILE OVERLAP FIXES
-   (header + buttons wrapping)
-   ========================= */
-@media (max-width: 980px){
-
-  /* Let the sticky header expand when the buttons wrap */
-  .topbar{
-    height: auto;                 /* was fixed to --headerH */
-    min-height: var(--headerH);   /* keeps your intended baseline size */
-    padding: 10px 0;
-  }
-
-  /* Make wrapped header rows breathe */
-  .topbar .wrap{
-    align-items: stretch;
-  }
-
-  /* Slightly smaller brand so it doesn't bully the row */
-  .brand .name{
-    font-size: 30px;
-  }
-
-  /* Make the action pills wrap into neat rows instead of colliding */
-  .headerActions{
-    width: 100%;
-    gap: 8px;
-  }
-
-  .pillBtn{
-    flex: 1 1 calc(50% - 8px);   /* 2-per-row on mobile */
-    justify-content: center;
-    white-space: nowrap;
-    padding: 10px 10px;
-  }
-}
-
-/* Extra safety: long words/URLs inside cards shouldn’t force overlap */
-.rBody, .rBlurb, .rMeta{
-  overflow-wrap: anywhere;
 }
