@@ -51,7 +51,8 @@ function findRestaurant(catalog, id){
 }
 
 /* ---------- Reviews storage ---------- */
-function reviewStorageKey(id){ return `bagelbites_reviews_${id}`; }
+const REV_KEY_VER = "v2";
+function reviewStorageKey(id){ return `bagelbites_reviews_${REV_KEY_VER}_${REV_KEY_VER}_${id}`; }
 
 function loadUserReviews(id){
   try{
