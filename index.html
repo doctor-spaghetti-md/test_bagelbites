@@ -7,9 +7,9 @@
   <meta name="description" content="Bagelhole: a colorful, map-first restaurant review ecosystem." />
 
   <!-- Fonts -->
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Bangers&family=Borel&family=Bungee&family=Cherry+Bomb+One&family=Chewy&family=Dancing+Script:wght@400..700&family=Emilys+Candy&family=Frijole&family=Gloria+Hallelujah&family=Homemade+Apple&family=IM+Fell+DW+Pica:ital@0;1&family=Indie+Flower&family=Knewave&family=Life+Savers:wght@400;700;800&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Luckiest+Guy&family=Meow+Script&family=Monofett&family=Mouse+Memoirs&family=Orbitron:wght@400..900&family=Pacifico&family=Permanent+Marker&family=Playwrite+US+Trad:wght@100..400&family=Rammetto+One&family=Ribeye&family=Righteous&family=Rock+3D&family=Rock+Salt&family=Sacramento&family=Satisfy&family=Shadows+Into+Light&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Special+Elite&family=TikTok+Sans:opsz,wght@12..36,300..900&family=Twinkle+Star&family=Ultra&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frijole&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Bungee&display=swap" rel="stylesheet">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -27,59 +27,60 @@
         <span class="dot" aria-hidden="true"></span>
         <div>
           <div class="name">bagelbites</div>
-          <span class="sub">restaurant reviews</span>
         </div>
       </a>
 
-      <!-- Mobile quick actions (still visible on desktop, harmless) -->
-<div class="headerActions">
-  <!-- Desktop: map goes to full map page -->
-  
-  <!-- <a class="pillBtn desktopOnly" href="./map.html">🗺️ Map</a> -->
-  <a class="rainbowReviewBtn" href="./assets/writereview.html">✍️ Write a Review</a>
-  <a class="neonSuggestBtn" href="./assets/suggestion.html">+ Submit a Restaurant Suggestion</a>
-  <!-- Mobile: overlay controls -->
-  <button class="pillBtn mobileOnly" id="btnOpenFilters" type="button">🧪 Filters</button>
-  <button class="pillBtn mobileOnly" id="btnOpenMap" type="button">🗺️ Map</button>
+      <div class="headerActions">
+        <a class="rainbowReviewBtn" href="./assets/writereview.html">✍️ Write a Review</a>
+        <a class="neonSuggestBtn" href="./assets/suggestion.html">+ Submit a Restaurant Suggestion</a>
 
-  <!-- Your other CTAs can remain (review, suggestion, etc.) -->
-
-</div>
+        <button class="pillBtn mobileOnly" id="btnOpenFilters" type="button">🧪 Filters</button>
+        <button class="pillBtn mobileOnly" id="btnOpenMap" type="button">🗺️ Map</button>
+      </div>
     </div>
   </header>
 
   <!-- Desktop layout -->
   <main class="appShell" role="main">
 
-    <!-- Filters (sticky on desktop) -->
+    <!-- Filters -->
     <aside class="panel sidebar" id="filterSidebar" aria-label="Filters">
-      <!-- app.js will inject the filter UI here -->
       <div class="pad muted">Loading filters…</div>
     </aside>
 
-    <!-- Results (scrolls only this column on desktop) -->
+    <!-- Results column: header + scroll list + sticky footer pager -->
     <section class="panel resultsPane" aria-label="Restaurant results">
+      <div class="resultsHeader">
+        <div class="resultsTitle">Restaurants</div>
+        <div class="resultsSub muted" id="resultsSub">Loading…</div>
+      </div>
+
+      <!-- THIS is the only scrolling region -->
+      <div class="resultsScroll" id="resultsScroll">
+        <div id="resultsList" aria-live="polite">
+          <div class="pad muted">Loading restaurants…</div>
+        </div>
+      </div>
+
+      <!-- Pager sits at bottom of the panel -->
       <div class="pager" aria-label="Pagination controls">
         <button id="btnPrev" type="button">← Prev</button>
         <div class="meta" id="pageMeta">Page 1</div>
         <button id="btnNext" type="button">Next →</button>
       </div>
-
-      <div id="resultsList" aria-live="polite">
-        <div class="pad muted">Loading restaurants…</div>
-      </div>
     </section>
 
-    <!-- Map (sticky on desktop) -->
+    <!-- Map -->
     <aside class="panel mapWrap" aria-label="Map">
       <div id="map"></div>
     </aside>
+
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="wrap">
-      <div>© 2007 Piss in my pants publications.</div>
+      <div>© <span id="year"></span> Piss in my pants publications.</div>
       <div>no wrongs deserved, all wrongs acknowledged P.I.M.P.P</div>
     </div>
   </footer>
@@ -92,9 +93,7 @@
         <button class="close" type="button" data-close>Close</button>
       </div>
       <div class="mobileSheetBody">
-        <!-- We'll clone the desktop filter content in here if desired,
-             or app.js can render filters directly into this container too. -->
-        <div id="mobileFiltersBody" class="muted">Use the desktop filters panel for now.</div>
+        <div id="mobileFiltersBody" class="muted">Loading filters…</div>
       </div>
     </div>
   </div>
@@ -106,8 +105,6 @@
         <button class="close" type="button" data-close>Close</button>
       </div>
       <div class="mobileSheetBody" style="padding:0;">
-        <!-- Optional: a second map container for mobile.
-             If you want, we can re-parent the same map div in JS instead. -->
         <div id="mobileMapInner" style="height:100%;min-height:420px;"></div>
       </div>
     </div>
@@ -117,10 +114,8 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="./js/app.js"></script>
   <script>
-    // footer year
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
 </body>
-
 </html>
